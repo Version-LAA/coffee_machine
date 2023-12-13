@@ -14,50 +14,60 @@ def check_resources(drink):
 
     print(ingredients)
 
-# TODO process coins
+# process coins
 def calculate_coins(q,d,n,p):
     return ((q*.25)+(d*.10)+(n*.05)+(p*.01))
 
-# TODO check if transaction is successful
-def process_transactions():
-    pass
+# check if transaction is successful
+def process_transactions(drink,payment):
+    # take the total drink cost and subtract payment
+    # if drink cost == payment:
+      ## refund == 0
+      ## add payment to system resources
+    #else:
+      ## refund = drink cost - payment
+      ## add payment to system
+    drink_cost = drink['cost']
+    if drink_cost == payment:
+        drink_profit = payment
+        return drink_profit
+    else:
+        print(f"Your change is: ${drink_cost - payment}")
+        drink_profit = drink_cost
+        return drink_profit
+
 
 # print report of available resources
 def display_resources():
+    print("System Resources:")
     for key in machine_resources:
-        print(f"{key}: {machine_resources[key]}")
+        print(f"- {key}: {machine_resources[key]}")
 
 
 
 # TODO make coffee
-def make_coffe():
-    pass
+def make_coffe(drink,machine_resources):
+    drink_ingredients = drink['ingredients']
+    for i in drink_ingredients:
+        machine_resources[i] -= drink_ingredients[i]
+    return machine_resources
+    
 
 # valid request
 def valid_request(request):
-    valid = ["espresso","latte","cappuccino","exit","resources"]
+    valid = ["espresso","latte","cappuccino","exit","report"]
     if request in valid:
         return True
     else:
         return False
     
 def new_request():
-    request = input("""What would you like?
-    - espresso 🍵
-    - latte 🍶
-    - cappuccino ☕️ 
-                        
-    Drink Choice: """).lower()
+    request = input("\nWhat would you like? espresso 🍵 / latte 🍶 /cappuccino ☕️: ").lower()
         
     # check for valid resource
     while valid_request(request) is False:
         print(f"\n\"{request}\" is not a valid request, please try again")
-        request = input("""\nWhat would you like?
-        - espresso 🍵
-        - latte 🍶
-        - cappuccino ☕️ 
-                        
-        Drink Choice: """).lower()
+        request = input("\nWhat would you like? espresso 🍵 / latte 🍶 /cappuccino ☕️: ").lower()
     return request
 
 def main():
@@ -70,7 +80,8 @@ def main():
             # ability to turn off coffee machine
             machine_on = False
 
-        elif request == 'resources':
+        elif request == 'report':
+            print("\n")
             display_resources()
         else:
             if check_resources(request):
@@ -83,9 +94,17 @@ def main():
                 
                 # TODO process payment
                 payment = calculate_coins(quarters,dimes,nickles,pennies)
-                if payment >= MENU[request]["cost"]:
+                drink = MENU[request]
+                if payment >= drink["cost"]:
                     print("enough money")
-                    process_transactions() # TODO - finish defining this function
+                    profit = process_transactions(drink,payment)
+                    if 'money' in machine_resources:
+                        machine_resources['money'] += profit
+                    else:
+                        machine_resources['money'] = profit
+                    make_coffe(drink,machine_resources)
+          
+    
                 else:
                     print(f"not enough money - here is your refund of {payment}")
             else:
