@@ -103,6 +103,7 @@ def main():
                     else:
                         machine_resources['money'] = profit
                     make_coffe(drink,machine_resources)
+                    print(f"\nHere is your {request}, enjoy!")
           
     
                 else:
