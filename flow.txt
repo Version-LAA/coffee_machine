@@ -1,0 +1,20 @@
+ask user for their drink or request choice
+if choice == report:
+    - display resources
+elif choice == exit:
+    - exit program
+elif choice in [espress,latte,cappuccino]:
+     if enough resources for drink:
+        if true:
+            - request payment
+            - calculate payment
+            if payment is enough:
+                - add change to resources
+                - subtrack drink resources from total resources
+                - provide change if applicable
+                - display message indicating drink is made
+            else:
+               - display message there's not enohgh change and provide refund.
+
+        else:
+           - display message there's not enough resources
