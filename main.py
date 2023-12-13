@@ -32,7 +32,8 @@ def process_transactions(drink,payment):
         drink_profit = payment
         return drink_profit
     else:
-        print(f"Your change is: ${drink_cost - payment}")
+        change = "{:.2f}".format(abs(drink_cost - payment))
+        print(f"Your change is: ${change}")
         drink_profit = drink_cost
         return drink_profit
 
@@ -45,7 +46,7 @@ def display_resources():
 
 
 
-# TODO make coffee
+# make coffee
 def make_coffe(drink,machine_resources):
     drink_ingredients = drink['ingredients']
     for i in drink_ingredients:
@@ -85,18 +86,17 @@ def main():
             display_resources()
         else:
             if check_resources(request):
-                # TODO request payment
+                # request payment
                 print(f"Drink Price: {MENU[request]['cost']}")
                 quarters = float(input("How many quarters?: "))
                 dimes = float(input("How many dimes?: "))
                 nickles = float(input("How many nickles?: "))
                 pennies = float(input("How many pennies?: "))
                 
-                # TODO process payment
+                # process payment and make coffee
                 payment = calculate_coins(quarters,dimes,nickles,pennies)
                 drink = MENU[request]
                 if payment >= drink["cost"]:
-                    print("enough money")
                     profit = process_transactions(drink,payment)
                     if 'money' in machine_resources:
                         machine_resources['money'] += profit
