@@ -42,7 +42,14 @@ def process_transactions(drink,payment):
 def display_resources():
     print("System Resources:")
     for key in machine_resources:
-        print(f"- {key}: {machine_resources[key]}")
+        if key in ['water','milk']:
+            print(f"- {key}: {machine_resources[key]}ml")
+        elif key == 'coffee':
+            print(f"- {key}: {machine_resources[key]}g")
+        elif key == 'money':
+            print(f"- {key}: ${machine_resources[key]}")
+        else:
+            print(f"- {key}: {machine_resources[key]}")
 
 
 
